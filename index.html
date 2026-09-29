@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Six Degrees | Contact Manager</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#contacts" aria-label="Six Degrees home"><span class="brand-mark">6°</span><span>Six Degrees</span></a>
+      <nav aria-label="Main navigation">
+        <button class="nav-link active" data-view="contacts">Contacts</button>
+        <button class="nav-link" data-view="network">Relationship tree</button>
+      </nav>
+      <button class="button primary" id="new-contact">+ Add contact</button>
+    </header>
+
+    <main>
+      <section id="contacts-view" class="view active">
+        <div class="hero">
+          <div><p class="eyebrow">YOUR PEOPLE, CONNECTED</p><h1>Contacts with context.</h1><p class="lead">Keep details close and see how every person in your network is connected.</p></div>
+          <div class="stat"><strong id="contact-count">0</strong><span>contacts in your network</span></div>
+        </div>
+        <div class="toolbar">
+          <label class="search"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Search name, phone, or email" autocomplete="off" /></label>
+          <div class="actions"><button class="button ghost" id="export-data">Export JSON</button><label class="button ghost file-label">Import JSON<input id="import-data" type="file" accept="application/json" hidden /></label></div>
+        </div>
+        <div id="empty-state" class="empty-state" hidden><div class="empty-icon">◎</div><h2>No contacts found</h2><p>Add someone to start growing your network.</p><button class="button primary" id="empty-add">Add your first contact</button></div>
+        <div id="contact-grid" class="contact-grid" aria-live="polite"></div>
+      </section>
+
+      <section id="network-view" class="view">
+        <div class="network-heading"><div><p class="eyebrow">CONNECTION MAP</p><h1>Your relationship tree.</h1><p class="lead">Click a contact to focus their connections and explore your network.</p></div><button class="button primary" id="add-link">+ Link contacts</button></div>
+        <div class="legend"><span><i class="dot"></i> Contact</span><span><i class="line"></i> Relationship</span></div>
+        <div id="network-empty" class="empty-state" hidden><div class="empty-icon">⌘</div><h2>Your map is waiting</h2><p>Add two contacts, then link them to reveal your network.</p></div>
+        <div id="network-canvas" class="network-canvas"><svg id="network-svg" viewBox="0 0 1000 580" role="img" aria-label="Contact relationship network"></svg><div id="network-tip" class="network-tip">Select a contact to view details</div></div>
+      </section>
+    </main>
+
+    <dialog id="contact-dialog" class="modal"><form id="contact-form" method="dialog"><div class="modal-head"><div><p class="eyebrow" id="form-kicker">NEW CONTACT</p><h2 id="form-title">Add a contact</h2></div><button type="button" class="icon-button" data-close="contact-dialog" aria-label="Close">×</button></div><input id="contact-id" type="hidden" /><label>Full name <span class="required">*</span><input id="full-name" required maxlength="80" placeholder="e.g. Sarah Chen" /></label><label>Phone number <span class="required">*</span><input id="phone" required inputmode="tel" maxlength="30" placeholder="e.g. +1 555 0142" /></label><label>Email address <span class="required">*</span><input id="email" required type="email" maxlength="100" placeholder="e.g. sarah@example.com" /></label><p id="form-error" class="form-error" role="alert"></p><div class="modal-actions"><button type="button" class="button ghost" data-close="contact-dialog">Cancel</button><button class="button primary" type="submit">Save contact</button></div></form></dialog>
+
+    <dialog id="link-dialog" class="modal"><form id="link-form" method="dialog"><div class="modal-head"><div><p class="eyebrow">BUILD CONNECTION</p><h2>Link two contacts</h2></div><button type="button" class="icon-button" data-close="link-dialog" aria-label="Close">×</button></div><label>First contact <select id="link-from" required></select></label><label>Relationship <input id="link-label" required maxlength="50" placeholder="e.g. manages, knows, sibling of" /></label><label>Second contact <select id="link-to" required></select></label><p id="link-error" class="form-error" role="alert"></p><div class="modal-actions"><button type="button" class="button ghost" data-close="link-dialog">Cancel</button><button class="button primary" type="submit">Create link</button></div></form></dialog>
+
+    <div id="toast" class="toast" role="status"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
